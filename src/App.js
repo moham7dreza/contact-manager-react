@@ -3,11 +3,12 @@ import {Navbar} from "./components/Navbar";
 import {Footer} from "./components/Footer";
 import {ContactUs} from "./components/ContactUs";
 import React, {useEffect, useState} from "react";
-import {index_users, store_user} from "./services/UserService";
+import {index_users, show_user, store_user, update_user} from "./services/UserService";
 import {Users} from "./components/users/Users";
-import {Route, Routes, useNavigate} from "react-router-dom";
+import {Route, Routes, useNavigate, useParams} from "react-router-dom";
 import {User} from "./components/users/User";
 import {ViewUser} from "./components/users/ViewUser";
+import {EditUser} from "./components/users/EditUser";
 
 const App = () => {
 
@@ -24,14 +25,14 @@ const App = () => {
     })
 
     const setUserInfo = (e) => {
-        setUser({ ...getUser, [e.target.name] : e.target.value})
+        setUser({...getUser, [e.target.name]: e.target.value})
     }
 
     const createUserOnSubmit = async (e) => {
         e.preventDefault()
 
         try {
-            const { status } = await store_user(getUser)
+            const {status} = await store_user(getUser)
 
             if (status === 201) {
                 setUser({})
@@ -61,10 +62,11 @@ const App = () => {
         <>
             <Navbar/>
             <Routes>
-
                 <Route path={'/users'} element={<Users users={getUsers}/>}/>
                 <Route path={'/users/:id'} element={<ViewUser setUser={setUser} getUser={getUser}/>}/>
-                <Route path={'/users/add'} element={<ContactUs setUserInfo={setUserInfo} user={getUser} createUserOnSubmit={createUserOnSubmit}/>}/>
+                <Route path={'/users/add'} element={<ContactUs setUserInfo={setUserInfo} user={getUser}
+                                                               createUserOnSubmit={createUserOnSubmit}/>}/>
+                <Route path={'/users/edit/:id'} element={<EditUser/>}/>
             </Routes>
 
             <Footer/>

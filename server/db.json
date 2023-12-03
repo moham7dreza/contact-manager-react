@@ -1,12 +1,20 @@
 {
   "users": [
     {
-      "first_name": "محمدرضا",
-      "last_name": "رضایی",
-      "email": "clash.trial@gmail.com",
-      "mobile": "09331030511",
-      "bio": "dwqqdq",
+      "first_name": "محمدرضا2",
+      "last_name": "رضایی2",
+      "email": "clash.2trial@gmail.com",
+      "mobile": "93310302190",
+      "bio": "qwdqdqd22222",
       "id": 1
+    },
+    {
+      "first_name": "wefwf",
+      "last_name": "wfwef",
+      "email": "admin@email.com",
+      "mobile": "09331030511",
+      "bio": "fwefwfwef",
+      "id": 2
     }
   ]
 }
