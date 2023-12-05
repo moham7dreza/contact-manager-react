@@ -1,12 +1,11 @@
-import {useEffect, useRef} from "react";
+import {useContext, useEffect, useRef} from "react";
 import {index_users, show_user} from "../../services/UserService";
 import {useParams} from "react-router-dom";
+import {UserContext} from "../../context/UserContext";
 
-export const ViewUser = ({setUser, getUser}) => {
-
+export const ViewUser = () => {
+    const {setUser, getUser: user} = useContext(UserContext)
     const {id} = useParams()
-
-    const user = getUser
 
     useEffect(() => {
         const fetch = async () => {

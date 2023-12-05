@@ -1,4 +1,8 @@
-export const ContactUs = ({ user, setUserInfo, createUserOnSubmit }) => {
+import {useContext} from "react";
+import {UserContext} from "../context/UserContext";
+
+export const ContactUs = () => {
+    const {user, setUserInfo, createUserOnSubmit} = useContext(UserContext)
     return (
         <>
             {/*!-- Contact Us -->*/}

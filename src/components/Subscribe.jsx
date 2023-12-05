@@ -1,7 +1,9 @@
 import {useLocation} from "react-router-dom";
+import {useContext} from "react";
+import {UserContext} from "../context/UserContext";
 
-export const Subscribe = ({query, search}) => {
-    const location = useLocation()
+export const Subscribe = () => {
+    const {query, setQuery, searchUser: search} = useContext(UserContext)
 
     return (
         <>
