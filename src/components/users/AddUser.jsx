@@ -1,8 +1,8 @@
 import {useContext} from "react";
-import {UserContext} from "../context/UserContext";
+import {UserContext} from "../../context/UserContext";
 
-export const ContactUs = () => {
-    const {user, setUserInfo, createUserOnSubmit} = useContext(UserContext)
+export const AddUser = () => {
+    const {getUser: user, setUserInfo, createUserOnSubmit} = useContext(UserContext)
     return (
         <>
             {/*!-- Contact Us -->*/}
@@ -10,7 +10,7 @@ export const ContactUs = () => {
                 <div className="max-w-xl mx-auto">
                     <div className="text-center">
                         <h1 className="text-3xl font-bold text-gray-800 sm:text-4xl dark:text-white">
-                            Contact us
+                            Add User
                         </h1>
                         <p className="mt-1 text-gray-600 dark:text-gray-400">
                             We'd love to talk about how we can help you.
@@ -33,7 +33,8 @@ export const ContactUs = () => {
                                         <label htmlFor="hs-firstname-contacts-1"
                                                className="block mb-2 text-sm text-gray-700 font-medium dark:text-white">First
                                             Name</label>
-                                        <input type="text" name="first_name" id="hs-firstname-contacts-1" value={user.first_name} onChange={setUserInfo} required={true}
+                                        <input type="text" name="first_name" id="hs-firstname-contacts-1"
+                                               value={user.first_name} onChange={setUserInfo} required={true}
                                                className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"/>
                                     </div>
 
@@ -41,7 +42,8 @@ export const ContactUs = () => {
                                         <label htmlFor="hs-lastname-contacts-1"
                                                className="block mb-2 text-sm text-gray-700 font-medium dark:text-white">Last
                                             Name</label>
-                                        <input type="text" name="last_name" id="hs-lastname-contacts-1" value={user.last_name} onChange={setUserInfo} required={true}
+                                        <input type="text" name="last_name" id="hs-lastname-contacts-1"
+                                               value={user.last_name} onChange={setUserInfo} required={true}
                                                className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"/>
                                     </div>
                                 </div>
@@ -53,7 +55,8 @@ export const ContactUs = () => {
                                         <label htmlFor="hs-email-contacts-1"
                                                className="block mb-2 text-sm text-gray-700 font-medium dark:text-white">Email</label>
                                         <input type="email" name="email" id="hs-email-contacts-1"
-                                               autoComplete="email" value={user.email} onChange={setUserInfo} required={true}
+                                               autoComplete="email" value={user.email} onChange={setUserInfo}
+                                               required={true}
                                                className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"/>
                                     </div>
 
@@ -61,7 +64,8 @@ export const ContactUs = () => {
                                         <label htmlFor="hs-phone-number-1"
                                                className="block mb-2 text-sm text-gray-700 font-medium dark:text-white">Phone
                                             Number</label>
-                                        <input type="text" name="mobile" id="hs-phone-number-1" value={user.mobile} onChange={setUserInfo} required={true}
+                                        <input type="text" name="mobile" id="hs-phone-number-1" value={user.mobile}
+                                               onChange={setUserInfo} required={true}
                                                className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"/>
                                     </div>
                                 </div>
@@ -70,7 +74,8 @@ export const ContactUs = () => {
                                 <div>
                                     <label htmlFor="hs-about-contacts-1"
                                            className="block mb-2 text-sm text-gray-700 font-medium dark:text-white">Details</label>
-                                    <textarea id="hs-about-contacts-1" name="bio" rows="4" value={user.bio} onChange={setUserInfo} required={true}
+                                    <textarea id="hs-about-contacts-1" name="bio" rows="4" value={user.bio}
+                                              onChange={setUserInfo} required={true}
                                               className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"></textarea>
                                 </div>
                             </div>
@@ -174,5 +179,5 @@ export const ContactUs = () => {
             </div>
             {/*<!-- End Contact Us -->*/}
         </>
-)
+    )
 }

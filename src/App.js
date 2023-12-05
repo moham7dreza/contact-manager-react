@@ -1,7 +1,7 @@
 import './App.css';
 import {Navbar} from "./components/Navbar";
 import {Footer} from "./components/Footer";
-import {ContactUs} from "./components/ContactUs";
+import {AddUser} from "./components/users/AddUser";
 import React, {useEffect, useState} from "react";
 import {index_users, store_user} from "./services/UserService";
 import {Users} from "./components/users/Users";
@@ -20,11 +20,7 @@ const App = () => {
     const searchUser = (e) => {
         const search = e.target.value
         setQuery({...query, text: search})
-        const users = getUsers.filter(user => {
-            return user.first_name.toLowerCase().includes(search.toLowerCase())
-        })
-        setFilteredUsers(users)
-        console.log(filteredUsers)
+        setFilteredUsers(getUsers.filter(user => user.first_name.toLowerCase().includes(search.toLowerCase()) || user.last_name.toLowerCase().includes(search.toLowerCase())))
     }
 
     const setUserInfo = (e) => {
@@ -34,9 +30,11 @@ const App = () => {
     const createUserOnSubmit = async (e) => {
         e.preventDefault()
         try {
-            const {status} = await store_user(getUser)
+            const {status, data: user} = await store_user(getUser)
             if (status === 201) {
                 setUser({})
+                setFilteredUsers([...getUsers, user])
+                setUsers([...getUsers, user])
                 navigate('/users')
             }
         } catch (e) {
@@ -48,12 +46,13 @@ const App = () => {
         const fetch = async () => {
             try {
                 const {data: users} = await index_users()
-                setFilteredUsers(users)
+                setUsers(users)
             } catch (e) {
                 console.log(e.message)
             }
         }
-        fetch()
+        fetch().then(r => {
+        })
     }, []);
 
     const value = {
@@ -75,7 +74,7 @@ const App = () => {
             <Routes>
                 <Route path={'/users'} element={<Users/>}/>
                 <Route path={'/users/:id'} element={<ViewUser/>}/>
-                <Route path={'/users/add'} element={<ContactUs/>}/>
+                <Route path={'/users/add'} element={<AddUser/>}/>
                 <Route path={'/users/edit/:id'} element={<EditUser/>}/>
             </Routes>
             <Footer/>
