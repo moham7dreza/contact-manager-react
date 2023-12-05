@@ -16,7 +16,7 @@ export const Users = () => {
                     Add User
                 </Link>
             </div>
-            {Object.keys(users).length > 0 && users.map((user) => <User key={user.id}/>)}
+            {Object.keys(users).length > 0 && users.map((user) => <User key={user.id} user={user}/>)}
         </>
     )
 }

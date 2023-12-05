@@ -2,8 +2,7 @@ import {Link} from "react-router-dom";
 import {useContext} from "react";
 import {UserContext} from "../../context/UserContext";
 
-export const User = () => {
-    const {getUser: user} = useContext(UserContext)
+export const User = ({user}) => {
     return (
         <>
             {/*<!-- Card Blog -->*/
