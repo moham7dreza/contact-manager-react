@@ -9,16 +9,13 @@ export const ViewUser = () => {
 
     useEffect(() => {
         const fetch = async () => {
-
             try {
-                const {data: user} = await UserService.find(id)
-
-                setUser(user)
+                const {data: userData} = await UserService.find(id)
+                setUser(userData)
             } catch (e) {
-
+                console.log(e.message)
             }
         }
-
         fetch()
     }, []);
 

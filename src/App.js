@@ -9,6 +9,7 @@ import {Route, Routes, useNavigate} from "react-router-dom";
 import {ViewUser} from "./components/users/ViewUser";
 import {EditUser} from "./components/users/EditUser";
 import {UserContext} from "./context/UserContext";
+import {confirmAlert} from "react-confirm-alert";
 
 const App = () => {
     const [getUsers, setUsers] = useState([])
@@ -42,6 +43,64 @@ const App = () => {
         }
     }
 
+    const removeUser = async (id) => {
+        const copyUsers = [...getUsers]
+        try {
+            const updatedUsers = getUsers.filter(user => user.id !== parseInt(id))
+            setUsers(updatedUsers)
+            setFilteredUsers(updatedUsers)
+            const {status} = await UserService.destroy(getUser, id)
+            if (status !== 200) {
+                setUsers(copyUsers)
+                setFilteredUsers(copyUsers)
+            }
+        } catch (e) {
+            console.log(e.message)
+            setUsers(copyUsers)
+            setFilteredUsers(copyUsers)
+        }
+    }
+
+    const confirmDelete = (id, name) => {
+        confirmAlert({
+            customUI: ({onClose}) => {
+                return (
+                    <div
+                        dir="rtl"
+                        style={{
+                            backgroundColor: 'cyan',
+                            border: `1px solid purple`,
+                            borderRadius: "1em",
+                        }}
+                        className="p-4"
+                    >
+                        <h1 style={{color: 'yellow'}}>پاک کردن مخاطب</h1>
+                        <p style={{color: 'forestgreen'}}>
+                            مطمئنی که میخوای مخاطب {name} رو پاک کنی ؟
+                        </p>
+                        <button
+                            onClick={() => {
+                                removeUser(id);
+                                onClose();
+                            }}
+                            className="btn mx-2"
+                            style={{backgroundColor: 'purple'}}
+                        >
+                            مطمئن هستم
+                        </button>
+                        <button
+                            onClick={onClose}
+                            className="btn"
+                            style={{backgroundColor: 'green'}}
+                        >
+                            انصراف
+                        </button>
+                    </div>
+                );
+            },
+        });
+    };
+
     useEffect(() => {
         const fetch = async () => {
             try {
@@ -59,6 +118,7 @@ const App = () => {
         getUser,
         setUser,
         getUsers,
+        setUsers,
         filteredUsers,
         query,
         setQuery,
@@ -66,6 +126,7 @@ const App = () => {
         setUserInfo,
         setFilteredUsers,
         searchUser,
+        confirmDelete
     }
 
     return (

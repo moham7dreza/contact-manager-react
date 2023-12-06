@@ -1,6 +1,6 @@
 import {Link} from "react-router-dom";
 
-export const User = ({user}) => {
+export const User = ({user, confirmDelete}) => {
     return (
         <>
             {/*<!-- Card Blog -->*/
@@ -53,6 +53,10 @@ export const User = ({user}) => {
                                   href="#">
                                 Edit
                             </Link>
+                            <button onClick={confirmDelete}
+                                    className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-ee-xl bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                                Delete
+                            </button>
                         </div>
                     </div>
                     {/*<!-- End Card -->*/}

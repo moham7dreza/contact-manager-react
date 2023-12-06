@@ -7,13 +7,26 @@ export const EditUser = () => {
     const {id} = useParams()
     const navigate = useNavigate()
 
-    const {getUser: user, setUser, setUserInfo} = useContext(UserContext)
+    const {
+        getUser: user,
+        setUser,
+        setUserInfo,
+        getUsers,
+        setUsers,
+        filteredUsers,
+        setFilteredUsers
+    } = useContext(UserContext)
 
     const updateUserOnSubmit = async (e) => {
         e.preventDefault()
         try {
-            const {data} = await UserService.update(user, id)
-            if (data) {
+            const {data: updatedUser, status} = await UserService.update(user, id)
+            if (status === 200) {
+                const allUsers = [...getUsers]
+                const userIndex = allUsers.findIndex(user => user.id === parseInt(id))
+                allUsers[userIndex] = {...updatedUser}
+                setUsers(allUsers)
+                setFilteredUsers(allUsers)
                 navigate('/users')
             }
         } catch (e) {

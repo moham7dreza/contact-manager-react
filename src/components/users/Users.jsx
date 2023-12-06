@@ -5,7 +5,7 @@ import {UserContext} from "../../context/UserContext";
 import {Subscribe} from "../Subscribe";
 
 export const Users = () => {
-    const {filteredUsers: users} = useContext(UserContext)
+    const {filteredUsers: users, confirmDelete} = useContext(UserContext)
 
     return (
         <>
@@ -16,7 +16,8 @@ export const Users = () => {
                     Add User
                 </Link>
             </div>
-            {Object.keys(users).length > 0 && users.map((user) => <User key={user.id} user={user}/>)}
+            {Object.keys(users).length > 0 && users.map((user) => <User key={user.id} user={user}
+                                                                        confirmDelete={() => confirmDelete(user.id, `${user.first_name} ${user.last_name}`)}/>)}
         </>
     )
 }
