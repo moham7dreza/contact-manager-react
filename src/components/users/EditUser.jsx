@@ -1,53 +1,37 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {show_user, update_user} from "../../services/UserService";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
+import {UserContext} from "../../context/UserContext";
 
 export const EditUser = () => {
     const {id} = useParams()
     const navigate = useNavigate()
 
-    const [getUser, setUser] = useState({
-        first_name: "",
-        last_name: "",
-        email: "",
-        mobile: "",
-        bio: ""
-    })
-
-    const setUserInfo = (e) => {
-        setUser({...getUser, [e.target.name]: e.target.value})
-    }
+    const {getUser: user, setUser, setUserInfo} = useContext(UserContext)
 
     const updateUserOnSubmit = async (e) => {
         e.preventDefault()
-
         try {
-            const {data} = await update_user(getUser, id)
-
+            const {data} = await update_user(user, id)
             if (data) {
                 navigate('/users')
             }
         } catch (e) {
-
+            console.log(e.message)
         }
     }
 
     useEffect(() => {
         const fetch = async () => {
-
             try {
                 const {data: userData} = await show_user(id)
-
                 setUser(userData)
             } catch (e) {
-
+                console.log(e.message)
             }
         }
-
         fetch()
     }, []);
-
-    const user = getUser
 
     return (
         <>

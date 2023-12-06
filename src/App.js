@@ -3,7 +3,7 @@ import {Navbar} from "./components/Navbar";
 import {Footer} from "./components/Footer";
 import {AddUser} from "./components/users/AddUser";
 import React, {useEffect, useState} from "react";
-import {index_users, store_user} from "./services/UserService";
+import {index_users, store_user, update_user} from "./services/UserService";
 import {Users} from "./components/users/Users";
 import {Route, Routes, useNavigate} from "react-router-dom";
 import {ViewUser} from "./components/users/ViewUser";
@@ -65,7 +65,7 @@ const App = () => {
         createUserOnSubmit,
         setUserInfo,
         setFilteredUsers,
-        searchUser
+        searchUser,
     }
 
     return (
