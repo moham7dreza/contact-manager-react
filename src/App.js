@@ -3,7 +3,7 @@ import {Navbar} from "./components/Navbar";
 import {Footer} from "./components/Footer";
 import {AddUser} from "./components/users/AddUser";
 import React, {useEffect, useState} from "react";
-import {index_users, store_user, update_user} from "./services/UserService";
+import UserService from "./services/UserService";
 import {Users} from "./components/users/Users";
 import {Route, Routes, useNavigate} from "react-router-dom";
 import {ViewUser} from "./components/users/ViewUser";
@@ -30,7 +30,7 @@ const App = () => {
     const createUserOnSubmit = async (e) => {
         e.preventDefault()
         try {
-            const {status, data: user} = await store_user(getUser)
+            const {status, data: user} = await UserService.store(getUser)
             if (status === 201) {
                 setUser({})
                 setFilteredUsers([...getUsers, user])
@@ -45,7 +45,7 @@ const App = () => {
     useEffect(() => {
         const fetch = async () => {
             try {
-                const {data: users} = await index_users()
+                const {data: users} = await UserService.index()
                 setUsers(users)
             } catch (e) {
                 console.log(e.message)

@@ -1,7 +1,7 @@
-import {useContext, useEffect, useRef} from "react";
-import {index_users, show_user} from "../../services/UserService";
+import {useContext, useEffect} from "react";
 import {useParams} from "react-router-dom";
 import {UserContext} from "../../context/UserContext";
+import UserService from "../../services/UserService";
 
 export const ViewUser = () => {
     const {setUser, getUser: user} = useContext(UserContext)
@@ -11,7 +11,7 @@ export const ViewUser = () => {
         const fetch = async () => {
 
             try {
-                const {data: user} = await show_user(id)
+                const {data: user} = await UserService.find(id)
 
                 setUser(user)
             } catch (e) {
