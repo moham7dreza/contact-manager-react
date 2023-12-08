@@ -2,7 +2,7 @@ import './App.css';
 import {Navbar} from "./components/Navbar";
 import {Footer} from "./components/Footer";
 import {AddUser} from "./components/users/AddUser";
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import UserService from "./services/UserService";
 import {Users} from "./components/users/Users";
 import {Route, Routes, useNavigate} from "react-router-dom";
@@ -18,11 +18,17 @@ const App = () => {
     const [filteredUsers, setFilteredUsers] = useState([])
     const [getUser, setUser] = useState({})
 
-    const searchUser = (e) => {
+    // const searchUser = (e) => {
+    //     const search = e.target.value
+    //     setQuery({...query, text: search})
+    //     setFilteredUsers(getUsers.filter(user => user.first_name.toLowerCase().includes(search.toLowerCase()) || user.last_name.toLowerCase().includes(search.toLowerCase())))
+    // }
+
+    const searchUser = useCallback((e) => {
         const search = e.target.value
         setQuery({...query, text: search})
         setFilteredUsers(getUsers.filter(user => user.first_name.toLowerCase().includes(search.toLowerCase()) || user.last_name.toLowerCase().includes(search.toLowerCase())))
-    }
+    }, [query, getUsers])
 
     const setUserInfo = (e) => {
         setUser({...getUser, [e.target.name]: e.target.value})

@@ -1,8 +1,16 @@
-import {useContext} from "react";
+import {useContext, useEffect, useRef} from "react";
 import {UserContext} from "../../context/UserContext";
 
 export const AddUser = () => {
     const {getUser: user, setUserInfo, createUserOnSubmit} = useContext(UserContext)
+    const inputRef = useRef(null)
+    const buttonRef = useRef(null)
+
+    useEffect(() => {
+        inputRef.current.focus()
+        inputRef.current.placeholder = 'Enter your username'
+        buttonRef.current.disabled = false
+    }, []);
     return (
         <>
             {/*!-- Contact Us -->*/}
@@ -33,7 +41,7 @@ export const AddUser = () => {
                                         <label htmlFor="hs-firstname-contacts-1"
                                                className="block mb-2 text-sm text-gray-700 font-medium dark:text-white">First
                                             Name</label>
-                                        <input type="text" name="first_name" id="hs-firstname-contacts-1"
+                                        <input type="text" name="first_name" id="hs-firstname-contacts-1" ref={inputRef}
                                                value={user.first_name} onChange={setUserInfo} required={true}
                                                className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"/>
                                     </div>
@@ -82,7 +90,7 @@ export const AddUser = () => {
                             {/*!-- End Grid -->*/}
 
                             <div className="mt-6 grid">
-                                <button type="submit"
+                                <button type="submit" ref={buttonRef}
                                         className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">Send
                                     inquiry
                                 </button>
