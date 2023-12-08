@@ -2,7 +2,7 @@ import './App.css';
 import {Navbar} from "./components/Navbar";
 import {Footer} from "./components/Footer";
 import {AddUser} from "./components/users/AddUser";
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useReducer, useState} from "react";
 import UserService from "./services/UserService";
 import {Users} from "./components/users/Users";
 import {Route, Routes, useNavigate} from "react-router-dom";
@@ -134,6 +134,29 @@ const App = () => {
         searchUser,
         confirmDelete
     }
+
+    // const reducer =  (state, action) => {
+    //     switch (action.type) {
+    //         case 'add_user':
+    //             return {
+    //
+    //             }
+    //         case 'update_user':
+    //             return {}
+    //         case 'delete_user':
+    //             return {}
+    //         default:
+    //             return state
+    //     }
+    // }
+    //
+    // const actions = {
+    //     addUser: 'add_user',
+    //     editUser:'editUser',
+    //     deleteUSer: 'deleteUser'
+    // }
+    //
+    // const [store, dispatch] = useReducer(reducer, {user: {}})
 
     return (
         <UserContext.Provider value={value}>
