@@ -14,21 +14,13 @@ import {confirmAlert} from "react-confirm-alert";
 const App = () => {
     const [getUsers, setUsers] = useState([])
     const navigate = useNavigate()
-    const [query, setQuery] = useState({})
     const [filteredUsers, setFilteredUsers] = useState([])
     const [getUser, setUser] = useState({})
 
-    // const searchUser = (e) => {
-    //     const search = e.target.value
-    //     setQuery({...query, text: search})
-    //     setFilteredUsers(getUsers.filter(user => user.first_name.toLowerCase().includes(search.toLowerCase()) || user.last_name.toLowerCase().includes(search.toLowerCase())))
-    // }
-
-    const searchUser = useCallback((e) => {
-        const search = e.target.value
-        setQuery({...query, text: search})
-        setFilteredUsers(getUsers.filter(user => user.first_name.toLowerCase().includes(search.toLowerCase()) || user.last_name.toLowerCase().includes(search.toLowerCase())))
-    }, [query, getUsers])
+    const searchUser = useCallback((query) => {
+        setFilteredUsers(getUsers.filter(user => user.first_name.toLowerCase().includes(query.toLowerCase())
+            || user.last_name.toLowerCase().includes(query.toLowerCase())))
+    }, [getUsers])
 
     const setUserInfo = (e) => {
         setUser({...getUser, [e.target.name]: e.target.value})
@@ -126,8 +118,6 @@ const App = () => {
         getUsers,
         setUsers,
         filteredUsers,
-        query,
-        setQuery,
         createUserOnSubmit,
         setUserInfo,
         setFilteredUsers,

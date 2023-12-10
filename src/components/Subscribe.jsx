@@ -2,7 +2,7 @@ import {useContext} from "react";
 import {UserContext} from "../context/UserContext";
 
 export const Subscribe = () => {
-    const {query, setQuery, searchUser: search} = useContext(UserContext)
+    const {searchUser: search} = useContext(UserContext)
 
     return (
         <>
@@ -16,7 +16,7 @@ export const Subscribe = () => {
                         <div className="mt-5 lg:mt-8 flex flex-col items-center gap-2 sm:flex-row sm:gap-3">
                             <div className="w-full">
                                 <label htmlFor="hero-input" className="sr-only">Search</label>
-                                <input onChange={search} value={query.text} type="text" id="hero-input"
+                                <input onChange={(e) => search(e.target.value)} type="text" id="hero-input"
                                        name="search"
                                        className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
                                        placeholder="Enter your email"/>
