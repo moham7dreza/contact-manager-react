@@ -17,9 +17,18 @@ const App = () => {
     const [filteredUsers, setFilteredUsers] = useState([])
     const [getUser, setUser] = useState({})
 
+    let filterTimeout
+
     const searchUser = useCallback((query) => {
-        setFilteredUsers(getUsers.filter(user => user.first_name.toLowerCase().includes(query.toLowerCase())
-            || user.last_name.toLowerCase().includes(query.toLowerCase())))
+        clearTimeout(filterTimeout)
+
+        if (!query) return setFilteredUsers([...getUsers])
+
+        filterTimeout = setTimeout(() => {
+            setFilteredUsers(getUsers.filter(user => user.first_name.toLowerCase().includes(query.toLowerCase())
+                || user.last_name.toLowerCase().includes(query.toLowerCase())))
+        }, 1000)
+
     }, [getUsers])
 
     const setUserInfo = (e) => {
