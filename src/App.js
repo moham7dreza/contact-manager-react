@@ -10,6 +10,8 @@ import {ViewUser} from "./components/users/ViewUser";
 import {EditUser} from "./components/users/EditUser";
 import {UserContext} from "./context/UserContext";
 import {confirmAlert} from "react-confirm-alert";
+import debounce from 'lodash.debounce'
+import throttle from 'lodash.throttle'
 
 const App = () => {
     const [getUsers, setUsers] = useState([])
@@ -17,6 +19,7 @@ const App = () => {
     const [filteredUsers, setFilteredUsers] = useState([])
     const [getUser, setUser] = useState({})
 
+    /*
     let filterTimeout
 
     const searchUser = useCallback((query) => {
@@ -30,6 +33,15 @@ const App = () => {
         }, 1000)
 
     }, [getUsers])
+    */
+    //  after .5 seconds users will be filtered
+    const searchUser = debounce(query => {
+        if (!query) return setFilteredUsers([...getUsers])
+
+        setFilteredUsers(getUsers.filter(user => user.first_name.toLowerCase().includes(query.toLowerCase())
+            || user.last_name.toLowerCase().includes(query.toLowerCase())))
+
+    }, 500)
 
     const setUserInfo = (e) => {
         setUser({...getUser, [e.target.name]: e.target.value})
@@ -67,8 +79,8 @@ const App = () => {
             setFilteredUsers(copyUsers)
         }
     }
-
-    const confirmDelete = (id, name) => {
+    // every 3 seconds confirm alert is shown
+    const confirmDelete = throttle((id, name) => {
         confirmAlert({
             customUI: ({onClose}) => {
                 return (
@@ -106,7 +118,7 @@ const App = () => {
                 );
             },
         });
-    };
+    }, 3000)
 
     useEffect(() => {
         const fetch = async () => {
