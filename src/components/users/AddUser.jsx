@@ -1,13 +1,14 @@
 import {useContext, useEffect, useRef} from "react";
 import {UserContext} from "../../context/UserContext";
-import {useFormik} from "formik";
+import {Formik, useFormik} from "formik";
 import {UserValidation} from "../../validations/UserValidation";
 
 export const AddUser = () => {
-    const {getUser: user, setUserInfo, createUserOnSubmit} = useContext(UserContext)
+    const {getUser: createUserOnSubmit} = useContext(UserContext)
     const inputRef = useRef(null)
     const buttonRef = useRef(null)
 
+    /*
     const formik = useFormik({
         initialValues: {
             first_name: '',
@@ -20,8 +21,7 @@ export const AddUser = () => {
         onSubmit: values => {
             createUserOnSubmit(values)
         }
-    })
-
+    })*/
     useEffect(() => {
         inputRef.current.focus()
         inputRef.current.placeholder = 'Enter your username'
@@ -48,89 +48,101 @@ export const AddUser = () => {
                         <h2 className="mb-8 text-xl font-semibold text-gray-800 dark:text-gray-200">
                             Fill in the form
                         </h2>
+                        <Formik initialValues={{
+                            first_name: '',
+                            last_name: '',
+                            email: '',
+                            mobile: '',
+                            bio: ''
+                        }} onSubmit={values => {
+                            createUserOnSubmit(values)
+                        }} validationSchema={UserValidation}>
+                            {formik => (
+                                <form onSubmit={formik.handleSubmit}>
+                                    <div className="grid gap-4 lg:gap-6">
+                                        {/*!-- Grid -->*/}
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
+                                            <div>
+                                                <label htmlFor="first_name"
+                                                       className="block mb-2 text-sm text-gray-700 font-medium dark:text-white">First
+                                                    Name</label>
+                                                <input type="text" id="first_name" ref={inputRef}
+                                                       {...formik.getFieldProps('first_name')}
+                                                       className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"/>
+                                                {formik.touched.first_name && formik.errors.first_name ? (
+                                                    <div
+                                                        className={'text-red-500 my-2'}>{formik.errors.first_name}</div>) : null}
+                                            </div>
 
-                        <form onSubmit={formik.handleSubmit}>
-                            <div className="grid gap-4 lg:gap-6">
-                                {/*!-- Grid -->*/}
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
-                                    <div>
-                                        <label htmlFor="first_name"
-                                               className="block mb-2 text-sm text-gray-700 font-medium dark:text-white">First
-                                            Name</label>
-                                        <input type="text" name="first_name" id="first_name" ref={inputRef}
-                                               value={formik.values.first_name} onChange={formik.handleChange}
-                                               onBlur={formik.handleBlur}
-                                               className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"/>
-                                        {formik.touched.first_name && formik.errors.first_name ? (
-                                            <div
-                                                className={'text-red-500 my-2'}>{formik.errors.first_name}</div>) : null}
+                                            <div>
+                                                <label htmlFor="last_name"
+                                                       className="block mb-2 text-sm text-gray-700 font-medium dark:text-white">Last
+                                                    Name</label>
+                                                <input type="text" id="last_name"
+                                                       {...formik.getFieldProps('last_name')}
+                                                       className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"/>
+                                                {formik.touched.last_name && formik.errors.last_name ? (
+                                                    <div
+                                                        className={'text-red-500 my-2'}>{formik.errors.last_name}</div>) : null}
+                                            </div>
+                                        </div>
+                                        {/*!-- End Grid -->*/}
+
+                                        {/*<!-- Grid -->*/}
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
+                                            <div>
+                                                <label htmlFor="email"
+                                                       className="block mb-2 text-sm text-gray-700 font-medium dark:text-white">Email</label>
+                                                <input type="email" id="email"
+                                                       autoComplete="email" {...formik.getFieldProps('email')}
+                                                       className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"/>
+                                                {formik.touched.email && formik.errors.email ? (
+                                                    <div
+                                                        className={'text-red-500 my-2'}>{formik.errors.email}</div>) : null}
+                                            </div>
+
+                                            <div>
+                                                <label htmlFor="mobile"
+                                                       className="block mb-2 text-sm text-gray-700 font-medium dark:text-white">Phone
+                                                    Number</label>
+                                                <input type="text" id="mobile"
+                                                       {...formik.getFieldProps('mobile')}
+                                                       className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"/>
+                                                {formik.touched.mobile && formik.errors.mobile ? (
+                                                    <div
+                                                        className={'text-red-500 my-2'}>{formik.errors.mobile}</div>) : null}
+                                            </div>
+                                        </div>
+                                        {/*!-- End Grid -->*/}
+
+                                        <div>
+                                            <label htmlFor="bio"
+                                                   className="block mb-2 text-sm text-gray-700 font-medium dark:text-white">Details</label>
+                                            <textarea id="bio" rows="4"
+                                                      {...formik.getFieldProps('bio')}
+                                                      className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"></textarea>
+                                            {formik.touched.bio && formik.errors.bio ? (
+                                                <div className={'text-red-500 my-2'}>{formik.errors.bio}</div>) : null}
+                                        </div>
+                                    </div>
+                                    {/*!-- End Grid -->*/}
+
+                                    <div className="mt-6 grid">
+                                        <button type="submit" ref={buttonRef}
+                                                className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">Send
+                                            inquiry
+                                        </button>
                                     </div>
 
-                                    <div>
-                                        <label htmlFor="last_name"
-                                               className="block mb-2 text-sm text-gray-700 font-medium dark:text-white">Last
-                                            Name</label>
-                                        <input type="text" name="last_name" id="last_name" onBlur={formik.handleBlur}
-                                               value={formik.values.last_name} onChange={formik.handleChange}
-                                               className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"/>
-                                        {formik.touched.last_name && formik.errors.last_name ? (
-                                            <div
-                                                className={'text-red-500 my-2'}>{formik.errors.last_name}</div>) : null}
+                                    <div className="mt-3 text-center">
+                                        <p className="text-sm text-gray-500">
+                                            We'll get back to you in 1-2 business days.
+                                        </p>
                                     </div>
-                                </div>
-                                {/*!-- End Grid -->*/}
+                                </form>
+                            )}
+                        </Formik>
 
-                                {/*<!-- Grid -->*/}
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
-                                    <div>
-                                        <label htmlFor="email"
-                                               className="block mb-2 text-sm text-gray-700 font-medium dark:text-white">Email</label>
-                                        <input type="email" name="email" id="email" onBlur={formik.handleBlur}
-                                               autoComplete="email" value={formik.values.email}
-                                               onChange={formik.handleChange}
-                                               className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"/>
-                                        {formik.touched.email && formik.errors.email ? (
-                                            <div className={'text-red-500 my-2'}>{formik.errors.email}</div>) : null}
-                                    </div>
-
-                                    <div>
-                                        <label htmlFor="mobile"
-                                               className="block mb-2 text-sm text-gray-700 font-medium dark:text-white">Phone
-                                            Number</label>
-                                        <input type="text" name="mobile" id="mobile" value={formik.values.mobile}
-                                               onChange={formik.handleChange} onBlur={formik.handleBlur}
-                                               className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"/>
-                                        {formik.touched.mobile && formik.errors.mobile ? (
-                                            <div className={'text-red-500 my-2'}>{formik.errors.mobile}</div>) : null}
-                                    </div>
-                                </div>
-                                {/*!-- End Grid -->*/}
-
-                                <div>
-                                    <label htmlFor="bio"
-                                           className="block mb-2 text-sm text-gray-700 font-medium dark:text-white">Details</label>
-                                    <textarea id="bio" name="bio" rows="4" value={formik.values.bio}
-                                              onChange={formik.handleChange} onBlur={formik.handleBlur}
-                                              className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"></textarea>
-                                    {formik.touched.bio && formik.errors.bio ? (
-                                        <div className={'text-red-500 my-2'}>{formik.errors.bio}</div>) : null}
-                                </div>
-                            </div>
-                            {/*!-- End Grid -->*/}
-
-                            <div className="mt-6 grid">
-                                <button type="submit" ref={buttonRef}
-                                        className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">Send
-                                    inquiry
-                                </button>
-                            </div>
-
-                            <div className="mt-3 text-center">
-                                <p className="text-sm text-gray-500">
-                                    We'll get back to you in 1-2 business days.
-                                </p>
-                            </div>
-                        </form>
                     </div>
                     {/*!-- End Card -->*/}
                 </div>
