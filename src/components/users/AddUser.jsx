@@ -138,7 +138,6 @@ export const AddUser = () => {
                                     </div>
                             </Form>
                         </Formik>
-
                     </div>
                     {/*!-- End Card -->*/}
                 </div>
