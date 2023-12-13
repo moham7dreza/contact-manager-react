@@ -5,5 +5,5 @@ export const UserValidation = YUP.object().shape({
     last_name: YUP.string().required(),
     email: YUP.string().email().required(),
     mobile: YUP.number().required(),
-    details: YUP.string().required()
+    bio: YUP.string().required()
 })

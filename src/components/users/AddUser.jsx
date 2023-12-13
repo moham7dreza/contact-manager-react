@@ -1,10 +1,26 @@
 import {useContext, useEffect, useRef} from "react";
 import {UserContext} from "../../context/UserContext";
+import {useFormik} from "formik";
+import {UserValidation} from "../../validations/UserValidation";
 
 export const AddUser = () => {
-    const {getUser: user, setUserInfo, createUserOnSubmit, errors} = useContext(UserContext)
+    const {getUser: user, setUserInfo, createUserOnSubmit} = useContext(UserContext)
     const inputRef = useRef(null)
     const buttonRef = useRef(null)
+
+    const formik = useFormik({
+        initialValues: {
+            first_name: '',
+            last_name: '',
+            email: '',
+            mobile: '',
+            bio: ''
+        },
+        validationSchema: UserValidation,
+        onSubmit: values => {
+            createUserOnSubmit(values)
+        }
+    })
 
     useEffect(() => {
         inputRef.current.focus()
@@ -32,33 +48,34 @@ export const AddUser = () => {
                         <h2 className="mb-8 text-xl font-semibold text-gray-800 dark:text-gray-200">
                             Fill in the form
                         </h2>
-                        <section className={'my-3'}>
-                            {errors?.map((error, index) => (
-                                <p key={index} className="text-red-600 p-2" dir={'ltr'}>
-                                    {error.message}
-                                </p>
-                            ))}
-                        </section>
-                        <form onSubmit={createUserOnSubmit}>
+
+                        <form onSubmit={formik.handleSubmit}>
                             <div className="grid gap-4 lg:gap-6">
                                 {/*!-- Grid -->*/}
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
                                     <div>
-                                        <label htmlFor="hs-firstname-contacts-1"
+                                        <label htmlFor="first_name"
                                                className="block mb-2 text-sm text-gray-700 font-medium dark:text-white">First
                                             Name</label>
-                                        <input type="text" name="first_name" id="hs-firstname-contacts-1" ref={inputRef}
-                                               value={user.first_name} onChange={setUserInfo}
+                                        <input type="text" name="first_name" id="first_name" ref={inputRef}
+                                               value={formik.values.first_name} onChange={formik.handleChange}
+                                               onBlur={formik.handleBlur}
                                                className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"/>
+                                        {formik.touched.first_name && formik.errors.first_name ? (
+                                            <div
+                                                className={'text-red-500 my-2'}>{formik.errors.first_name}</div>) : null}
                                     </div>
 
                                     <div>
-                                        <label htmlFor="hs-lastname-contacts-1"
+                                        <label htmlFor="last_name"
                                                className="block mb-2 text-sm text-gray-700 font-medium dark:text-white">Last
                                             Name</label>
-                                        <input type="text" name="last_name" id="hs-lastname-contacts-1"
-                                               value={user.last_name} onChange={setUserInfo}
+                                        <input type="text" name="last_name" id="last_name" onBlur={formik.handleBlur}
+                                               value={formik.values.last_name} onChange={formik.handleChange}
                                                className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"/>
+                                        {formik.touched.last_name && formik.errors.last_name ? (
+                                            <div
+                                                className={'text-red-500 my-2'}>{formik.errors.last_name}</div>) : null}
                                     </div>
                                 </div>
                                 {/*!-- End Grid -->*/}
@@ -66,30 +83,37 @@ export const AddUser = () => {
                                 {/*<!-- Grid -->*/}
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
                                     <div>
-                                        <label htmlFor="hs-email-contacts-1"
+                                        <label htmlFor="email"
                                                className="block mb-2 text-sm text-gray-700 font-medium dark:text-white">Email</label>
-                                        <input type="email" name="email" id="hs-email-contacts-1"
-                                               autoComplete="email" value={user.email} onChange={setUserInfo}
+                                        <input type="email" name="email" id="email" onBlur={formik.handleBlur}
+                                               autoComplete="email" value={formik.values.email}
+                                               onChange={formik.handleChange}
                                                className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"/>
+                                        {formik.touched.email && formik.errors.email ? (
+                                            <div className={'text-red-500 my-2'}>{formik.errors.email}</div>) : null}
                                     </div>
 
                                     <div>
-                                        <label htmlFor="hs-phone-number-1"
+                                        <label htmlFor="mobile"
                                                className="block mb-2 text-sm text-gray-700 font-medium dark:text-white">Phone
                                             Number</label>
-                                        <input type="text" name="mobile" id="hs-phone-number-1" value={user.mobile}
-                                               onChange={setUserInfo}
+                                        <input type="text" name="mobile" id="mobile" value={formik.values.mobile}
+                                               onChange={formik.handleChange} onBlur={formik.handleBlur}
                                                className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"/>
+                                        {formik.touched.mobile && formik.errors.mobile ? (
+                                            <div className={'text-red-500 my-2'}>{formik.errors.mobile}</div>) : null}
                                     </div>
                                 </div>
                                 {/*!-- End Grid -->*/}
 
                                 <div>
-                                    <label htmlFor="hs-about-contacts-1"
+                                    <label htmlFor="bio"
                                            className="block mb-2 text-sm text-gray-700 font-medium dark:text-white">Details</label>
-                                    <textarea id="hs-about-contacts-1" name="bio" rows="4" value={user.bio}
-                                              onChange={setUserInfo}
+                                    <textarea id="bio" name="bio" rows="4" value={formik.values.bio}
+                                              onChange={formik.handleChange} onBlur={formik.handleBlur}
                                               className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"></textarea>
+                                    {formik.touched.bio && formik.errors.bio ? (
+                                        <div className={'text-red-500 my-2'}>{formik.errors.bio}</div>) : null}
                                 </div>
                             </div>
                             {/*!-- End Grid -->*/}
