@@ -1,6 +1,6 @@
 import {useContext, useEffect, useRef} from "react";
 import {UserContext} from "../../context/UserContext";
-import {Formik, useFormik} from "formik";
+import {ErrorMessage, Field, Form, Formik, useFormik} from "formik";
 import {UserValidation} from "../../validations/UserValidation";
 
 export const AddUser = () => {
@@ -23,9 +23,9 @@ export const AddUser = () => {
         }
     })*/
     useEffect(() => {
-        inputRef.current.focus()
-        inputRef.current.placeholder = 'Enter your username'
-        buttonRef.current.disabled = false
+        // inputRef.current.focus()
+        // inputRef.current.placeholder = 'Enter your username'
+        // buttonRef.current.disabled = false
     }, []);
     return (
         <>
@@ -57,8 +57,7 @@ export const AddUser = () => {
                         }} onSubmit={values => {
                             createUserOnSubmit(values)
                         }} validationSchema={UserValidation}>
-                            {formik => (
-                                <form onSubmit={formik.handleSubmit}>
+                            <Form>
                                     <div className="grid gap-4 lg:gap-6">
                                         {/*!-- Grid -->*/}
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
@@ -66,24 +65,23 @@ export const AddUser = () => {
                                                 <label htmlFor="first_name"
                                                        className="block mb-2 text-sm text-gray-700 font-medium dark:text-white">First
                                                     Name</label>
-                                                <input type="text" id="first_name" ref={inputRef}
-                                                       {...formik.getFieldProps('first_name')}
+                                                <Field type="text" name="first_name" ref={inputRef}
                                                        className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"/>
-                                                {formik.touched.first_name && formik.errors.first_name ? (
-                                                    <div
-                                                        className={'text-red-500 my-2'}>{formik.errors.first_name}</div>) : null}
+
+                                                <ErrorMessage name={'first_name'}>
+                                                    {message => (<div className={'text-red-500 my-2'}>{message}</div>)}
+                                                </ErrorMessage>
                                             </div>
 
                                             <div>
                                                 <label htmlFor="last_name"
                                                        className="block mb-2 text-sm text-gray-700 font-medium dark:text-white">Last
                                                     Name</label>
-                                                <input type="text" id="last_name"
-                                                       {...formik.getFieldProps('last_name')}
+                                                <Field type="text" name="last_name"
                                                        className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"/>
-                                                {formik.touched.last_name && formik.errors.last_name ? (
-                                                    <div
-                                                        className={'text-red-500 my-2'}>{formik.errors.last_name}</div>) : null}
+                                                <ErrorMessage name={'last_name'}>
+                                                    {message => (<div className={'text-red-500 my-2'}>{message}</div>)}
+                                                </ErrorMessage>
                                             </div>
                                         </div>
                                         {/*!-- End Grid -->*/}
@@ -93,24 +91,23 @@ export const AddUser = () => {
                                             <div>
                                                 <label htmlFor="email"
                                                        className="block mb-2 text-sm text-gray-700 font-medium dark:text-white">Email</label>
-                                                <input type="email" id="email"
-                                                       autoComplete="email" {...formik.getFieldProps('email')}
+                                                <Field type="email" name="email"
+                                                       autoComplete="email"
                                                        className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"/>
-                                                {formik.touched.email && formik.errors.email ? (
-                                                    <div
-                                                        className={'text-red-500 my-2'}>{formik.errors.email}</div>) : null}
+                                                <ErrorMessage name={'email'}>
+                                                    {message => (<div className={'text-red-500 my-2'}>{message}</div>)}
+                                                </ErrorMessage>
                                             </div>
 
                                             <div>
                                                 <label htmlFor="mobile"
                                                        className="block mb-2 text-sm text-gray-700 font-medium dark:text-white">Phone
                                                     Number</label>
-                                                <input type="text" id="mobile"
-                                                       {...formik.getFieldProps('mobile')}
+                                                <Field type="text" name="mobile"
                                                        className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"/>
-                                                {formik.touched.mobile && formik.errors.mobile ? (
-                                                    <div
-                                                        className={'text-red-500 my-2'}>{formik.errors.mobile}</div>) : null}
+                                                <ErrorMessage name={'mobile'}>
+                                                    {message => (<div className={'text-red-500 my-2'}>{message}</div>)}
+                                                </ErrorMessage>
                                             </div>
                                         </div>
                                         {/*!-- End Grid -->*/}
@@ -118,11 +115,11 @@ export const AddUser = () => {
                                         <div>
                                             <label htmlFor="bio"
                                                    className="block mb-2 text-sm text-gray-700 font-medium dark:text-white">Details</label>
-                                            <textarea id="bio" rows="4"
-                                                      {...formik.getFieldProps('bio')}
-                                                      className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"></textarea>
-                                            {formik.touched.bio && formik.errors.bio ? (
-                                                <div className={'text-red-500 my-2'}>{formik.errors.bio}</div>) : null}
+                                            <Field as={'textarea'} name="bio" rows="4"
+                                                   className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"/>
+                                            <ErrorMessage name={'bio'}>
+                                                {message => (<div className={'text-red-500 my-2'}>{message}</div>)}
+                                            </ErrorMessage>
                                         </div>
                                     </div>
                                     {/*!-- End Grid -->*/}
@@ -139,8 +136,7 @@ export const AddUser = () => {
                                             We'll get back to you in 1-2 business days.
                                         </p>
                                     </div>
-                                </form>
-                            )}
+                            </Form>
                         </Formik>
 
                     </div>
