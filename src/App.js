@@ -12,12 +12,14 @@ import {UserContext} from "./context/UserContext";
 import {confirmAlert} from "react-confirm-alert";
 import debounce from 'lodash.debounce'
 import throttle from 'lodash.throttle'
+import {UserValidation} from "./validations/UserValidation";
 
 const App = () => {
     const [getUsers, setUsers] = useState([])
     const navigate = useNavigate()
     const [filteredUsers, setFilteredUsers] = useState([])
     const [getUser, setUser] = useState({})
+    const [errors, setErrors] = useState([])
 
     /*
     let filterTimeout
@@ -50,15 +52,20 @@ const App = () => {
     const createUserOnSubmit = async (e) => {
         e.preventDefault()
         try {
+            await UserValidation.validate(getUser, {abortEarly: false})
             const {status, data: user} = await UserService.store(getUser)
             if (status === 201) {
                 setUser({})
                 setFilteredUsers([...getUsers, user])
                 setUsers([...getUsers, user])
+
+                setErrors([])
+
                 navigate('/users')
             }
         } catch (e) {
             console.log(e.message)
+            setErrors(e.inner)
         }
     }
 
@@ -143,7 +150,8 @@ const App = () => {
         setUserInfo,
         setFilteredUsers,
         searchUser,
-        confirmDelete
+        confirmDelete,
+        errors
     }
 
     // const reducer =  (state, action) => {

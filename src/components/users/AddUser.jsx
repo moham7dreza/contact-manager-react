@@ -2,7 +2,7 @@ import {useContext, useEffect, useRef} from "react";
 import {UserContext} from "../../context/UserContext";
 
 export const AddUser = () => {
-    const {getUser: user, setUserInfo, createUserOnSubmit} = useContext(UserContext)
+    const {getUser: user, setUserInfo, createUserOnSubmit, errors} = useContext(UserContext)
     const inputRef = useRef(null)
     const buttonRef = useRef(null)
 
@@ -32,7 +32,13 @@ export const AddUser = () => {
                         <h2 className="mb-8 text-xl font-semibold text-gray-800 dark:text-gray-200">
                             Fill in the form
                         </h2>
-
+                        <section className={'my-3'}>
+                            {errors?.map((error, index) => (
+                                <p key={index} className="text-red-600 p-2" dir={'ltr'}>
+                                    {error.message}
+                                </p>
+                            ))}
+                        </section>
                         <form onSubmit={createUserOnSubmit}>
                             <div className="grid gap-4 lg:gap-6">
                                 {/*!-- Grid -->*/}
@@ -42,7 +48,7 @@ export const AddUser = () => {
                                                className="block mb-2 text-sm text-gray-700 font-medium dark:text-white">First
                                             Name</label>
                                         <input type="text" name="first_name" id="hs-firstname-contacts-1" ref={inputRef}
-                                               value={user.first_name} onChange={setUserInfo} required={true}
+                                               value={user.first_name} onChange={setUserInfo}
                                                className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"/>
                                     </div>
 
@@ -51,7 +57,7 @@ export const AddUser = () => {
                                                className="block mb-2 text-sm text-gray-700 font-medium dark:text-white">Last
                                             Name</label>
                                         <input type="text" name="last_name" id="hs-lastname-contacts-1"
-                                               value={user.last_name} onChange={setUserInfo} required={true}
+                                               value={user.last_name} onChange={setUserInfo}
                                                className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"/>
                                     </div>
                                 </div>
@@ -64,7 +70,6 @@ export const AddUser = () => {
                                                className="block mb-2 text-sm text-gray-700 font-medium dark:text-white">Email</label>
                                         <input type="email" name="email" id="hs-email-contacts-1"
                                                autoComplete="email" value={user.email} onChange={setUserInfo}
-                                               required={true}
                                                className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"/>
                                     </div>
 
@@ -73,7 +78,7 @@ export const AddUser = () => {
                                                className="block mb-2 text-sm text-gray-700 font-medium dark:text-white">Phone
                                             Number</label>
                                         <input type="text" name="mobile" id="hs-phone-number-1" value={user.mobile}
-                                               onChange={setUserInfo} required={true}
+                                               onChange={setUserInfo}
                                                className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"/>
                                     </div>
                                 </div>
@@ -83,7 +88,7 @@ export const AddUser = () => {
                                     <label htmlFor="hs-about-contacts-1"
                                            className="block mb-2 text-sm text-gray-700 font-medium dark:text-white">Details</label>
                                     <textarea id="hs-about-contacts-1" name="bio" rows="4" value={user.bio}
-                                              onChange={setUserInfo} required={true}
+                                              onChange={setUserInfo}
                                               className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"></textarea>
                                 </div>
                             </div>
