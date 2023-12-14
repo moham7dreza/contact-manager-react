@@ -4,6 +4,7 @@ import {UserContext} from "../../context/UserContext";
 import UserService from "../../services/UserService";
 import {UserValidation} from "../../validations/UserValidation";
 import {ErrorMessage, Field, Form, Formik} from "formik";
+import {toast} from "react-toastify";
 
 export const EditUser = () => {
     const {id} = useParams()
@@ -23,6 +24,7 @@ export const EditUser = () => {
         try {
             const {data: updatedUser, status} = await UserService.update(values, id)
             if (status === 200) {
+                toast.success("User updated successfully")
                 // const allUsers = [...getUsers]
                 // const userIndex = allUsers.findIndex(user => user.id === parseInt(id))
                 // allUsers[userIndex] = {...updatedUser}

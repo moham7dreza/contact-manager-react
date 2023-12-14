@@ -13,6 +13,7 @@ import {confirmAlert} from "react-confirm-alert";
 import debounce from 'lodash.debounce'
 import throttle from 'lodash.throttle'
 import {useImmer} from "use-immer";
+import {toast, ToastContainer} from "react-toastify";
 
 const App = () => {
     const [getUsers, setUsers] = useImmer([])
@@ -57,6 +58,7 @@ const App = () => {
 
             const {status, data: user} = await UserService.store(values)
             if (status === 201) {
+                toast.success("User created successfully")
                 // setUser({})
                 // setFilteredUsers([...getUsers, user])
                 // setUsers([...getUsers, user])
@@ -84,9 +86,11 @@ const App = () => {
             // setFilteredUsers(updatedUsers)
             const {status} = await UserService.destroy(getUser, id)
             if (status !== 200) {
+                toast.error("Couldn't remove user'")
                 setUsers(copyUsers)
                 setFilteredUsers(copyUsers)
             }
+            toast.success("User deleted successfully")
         } catch (e) {
             console.log(e.message)
             setUsers(copyUsers)
@@ -185,6 +189,7 @@ const App = () => {
 
     return (
         <UserContext.Provider value={value}>
+            <ToastContainer rtl={true} theme={"dark"}/>
             <Navbar/>
             <Routes>
                 <Route path={'/users'} element={<Users/>}/>
