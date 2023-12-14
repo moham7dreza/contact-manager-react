@@ -12,12 +12,13 @@ import {UserContext} from "./context/UserContext";
 import {confirmAlert} from "react-confirm-alert";
 import debounce from 'lodash.debounce'
 import throttle from 'lodash.throttle'
+import {useImmer} from "use-immer";
 
 const App = () => {
-    const [getUsers, setUsers] = useState([])
+    const [getUsers, setUsers] = useImmer([])
     const navigate = useNavigate()
-    const [filteredUsers, setFilteredUsers] = useState([])
-    const [getUser, setUser] = useState({})
+    const [filteredUsers, setFilteredUsers] = useImmer([])
+    const [getUser, setUser] = useImmer({})
 
     /*
     let filterTimeout
@@ -38,7 +39,10 @@ const App = () => {
     const searchUser = debounce(query => {
         if (!query) return setFilteredUsers([...getUsers])
 
-        setFilteredUsers(getUsers.filter(user => user.first_name.toLowerCase().includes(query.toLowerCase())
+        // setFilteredUsers(getUsers.filter(user => user.first_name.toLowerCase().includes(query.toLowerCase())
+        //     || user.last_name.toLowerCase().includes(query.toLowerCase())))
+
+        setFilteredUsers(users => users.filter(user => user.first_name.toLowerCase().includes(query.toLowerCase())
             || user.last_name.toLowerCase().includes(query.toLowerCase())))
 
     }, 500)
@@ -54,8 +58,15 @@ const App = () => {
             const {status, data: user} = await UserService.store(values)
             if (status === 201) {
                 // setUser({})
-                setFilteredUsers([...getUsers, user])
-                setUsers([...getUsers, user])
+                // setFilteredUsers([...getUsers, user])
+                // setUsers([...getUsers, user])
+                // modify state directly with immer
+                setUsers(users => {
+                    users.push(user)
+                })
+                setFilteredUsers(users => {
+                    users.push(user)
+                })
                 navigate('/users')
             }
         } catch (e) {
@@ -66,9 +77,11 @@ const App = () => {
     const removeUser = async (id) => {
         const copyUsers = [...getUsers]
         try {
-            const updatedUsers = getUsers.filter(user => user.id !== parseInt(id))
-            setUsers(updatedUsers)
-            setFilteredUsers(updatedUsers)
+            setUsers(users => users.filter(user => user.id !== parseInt(id)))
+            setFilteredUsers(users => users.filter(user => user.id !== parseInt(id)))
+            // const updatedUsers = getUsers.filter(user => user.id !== parseInt(id))
+            // setUsers(updatedUsers)
+            // setFilteredUsers(updatedUsers)
             const {status} = await UserService.destroy(getUser, id)
             if (status !== 200) {
                 setUsers(copyUsers)

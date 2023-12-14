@@ -23,11 +23,20 @@ export const EditUser = () => {
         try {
             const {data: updatedUser, status} = await UserService.update(values, id)
             if (status === 200) {
-                const allUsers = [...getUsers]
-                const userIndex = allUsers.findIndex(user => user.id === parseInt(id))
-                allUsers[userIndex] = {...updatedUser}
-                setUsers(allUsers)
-                setFilteredUsers(allUsers)
+                // const allUsers = [...getUsers]
+                // const userIndex = allUsers.findIndex(user => user.id === parseInt(id))
+                // allUsers[userIndex] = {...updatedUser}
+                // setUsers(allUsers)
+                // setFilteredUsers(allUsers)
+
+                setUsers(users => {
+                    const userIndex = users.findIndex(user => user.id === parseInt(id))
+                    users[userIndex] = {...updatedUser}
+                })
+                setFilteredUsers(users => {
+                    const userIndex = users.findIndex(user => user.id === parseInt(id))
+                    users[userIndex] = {...updatedUser}
+                })
                 navigate('/users')
             }
         } catch (e) {
