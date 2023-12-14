@@ -12,3 +12,7 @@
 
 @tailwind components;
 @tailwind utilities;
+
+.Toastify__toast-body {
+    font-family: "Source Code Pro", serif !important;
+}
